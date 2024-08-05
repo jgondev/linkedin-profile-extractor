@@ -1,20 +1,20 @@
 // content.js
 
-// Función para extraer datos del perfil de LinkedIn
+// Function to extract LinkedIn profile data
 function extractProfileData() {
     const profileData = {
-        // Información general
-        name: document.querySelector('.top-card-layout__title')?.innerText.trim() || 'Nombre no encontrado',
-        headline: document.querySelector('.top-card-layout__headline')?.innerText.trim() || 'Titular no encontrado',
-        location: document.querySelector('.top-card__subline-item')?.innerText.trim() || 'Ubicación no encontrada',
-        followers: document.querySelector('.top-card__subline-item:nth-child(2)')?.innerText.trim() || 'Seguidores no encontrados',
-        connections: document.querySelector('.top-card__subline-item--bullet')?.innerText.trim() || 'Conexiones no encontradas',
+        // General information
+        name: document.querySelector('.top-card-layout__title')?.innerText.trim() || 'Name not found',
+        headline: document.querySelector('.top-card-layout__headline')?.innerText.trim() || 'Headline not found',
+        location: document.querySelector('.top-card__subline-item')?.innerText.trim() || 'Location not found',
+        followers: document.querySelector('.top-card__subline-item:nth-child(2)')?.innerText.trim() || 'Followers not found',
+        connections: document.querySelector('.top-card__subline-item--bullet')?.innerText.trim() || 'Connections not found',
 
-        // Posiciones actuales y pasadas
+        // Current and past positions
         currentPositions: Array.from(document.querySelectorAll('[data-section="currentPositionsDetails"] .top-card-link__description')).map(el => el.innerText.trim()),
         pastPositions: Array.from(document.querySelectorAll('[data-section="pastPositionsDetails"] .top-card-link__description')).map(el => el.innerText.trim()),
 
-        // Educación, experiencia, certificaciones, proyectos, puntajes de pruebas, lenguajes y recomendaciones
+        // Education, experience, certifications, projects, test scores, languages, and recommendations
         education: extractEducationData(),
         experiences: extractExperienceData(),
         certifications: extractCertificationsData(),
@@ -24,12 +24,12 @@ function extractProfileData() {
         recommendations: extractRecommendationsData()
     };
 
-    // Envía los datos al popup
+    // Send the data to the popup
     try {
         chrome.runtime.sendMessage({ action: 'profileData', data: profileData }, (response) => {
             if (chrome.runtime.lastError) {
-                // Puedes manejar el error aquí sin mostrarlo en la consola
-                // Por ejemplo, puedes mostrar una alerta o simplemente ignorar el error
+                // You can handle the error here without showing it in the console
+                // For example, you can show an alert or simply ignore the error
             } else {
             }
         });
@@ -37,7 +37,7 @@ function extractProfileData() {
     }
 }
 
-// Función para extraer educación
+// Function to extract education
 function extractEducationData() {
     const educationList = [];
     const educationItems = document.querySelectorAll('.education__list-item');
@@ -46,8 +46,8 @@ function extractEducationData() {
         const degreeElement = item.querySelector('.education__item--degree-info');
         const dateElement = item.querySelector('.education__item--duration .date-range');
 
-        const university = universityElement ? universityElement.innerText.trim() : 'Universidad no encontrada';
-        const degree = degreeElement ? degreeElement.innerText.trim() : 'Título no encontrado';
+        const university = universityElement ? universityElement.innerText.trim() : 'University not found';
+        const degree = degreeElement ? degreeElement.innerText.trim() : 'Degree not found';
 
         let startDate = null;
         let endDate = null;
@@ -67,7 +67,7 @@ function extractEducationData() {
     return educationList;
 }
 
-// Función para extraer experiencia
+// Function to extract experience
 function extractExperienceData() {
     const experiences = [];
     const experienceItems = document.querySelectorAll('.experience-item');
@@ -77,9 +77,9 @@ function extractExperienceData() {
         const dateElement = item.querySelector('.experience-item__duration .date-range');
         const locationElement = item.querySelector('.experience-item__location');
 
-        const title = titleElement ? titleElement.innerText.trim() : 'Título no encontrado';
-        const company = companyElement ? companyElement.innerText.trim() : 'Compañía no encontrada';
-        const location = locationElement ? locationElement.innerText.trim() : 'Ubicación no encontrada';
+        const title = titleElement ? titleElement.innerText.trim() : 'Title not found';
+        const company = companyElement ? companyElement.innerText.trim() : 'Company not found';
+        const location = locationElement ? locationElement.innerText.trim() : 'Location not found';
 
         let startDate = null;
         let endDate = null;
@@ -108,7 +108,7 @@ function extractExperienceData() {
     return experiences;
 }
 
-// Función para extraer certificaciones
+// Function to extract certifications
 function extractCertificationsData() {
     const certificationsList = [];
     const certificationItems = document.querySelectorAll('.certifications__list .profile-section-card');
@@ -117,8 +117,8 @@ function extractCertificationsData() {
         const issuerElement = item.querySelector('.profile-section-card__subtitle a');
         const dateElement = item.querySelector('.certifications__start-date time');
 
-        const title = titleElement ? titleElement.innerText.trim() : 'Certificación no encontrada';
-        const issuer = issuerElement ? issuerElement.innerText.trim() : 'Emisor no encontrado';
+        const title = titleElement ? titleElement.innerText.trim() : 'Certification not found';
+        const issuer = issuerElement ? issuerElement.innerText.trim() : 'Issuer not found';
         const issueDate = dateElement ? parseDate(dateElement.innerText.trim()) : null;
 
         certificationsList.push({ title, issuer, issueDate });
@@ -126,7 +126,7 @@ function extractCertificationsData() {
     return certificationsList;
 }
 
-// Función para extraer proyectos
+// Function to extract projects
 function extractProjectsData() {
     const projectsList = [];
     const projectItems = document.querySelectorAll('.projects__list .profile-section-card');
@@ -135,7 +135,7 @@ function extractProjectsData() {
         const dateElement = item.querySelector('.date-range time');
         const collaboratorsElements = item.querySelectorAll('.face-pile__url');
 
-        const title = titleElement ? titleElement.innerText.trim() : 'Proyecto no encontrado';
+        const title = titleElement ? titleElement.innerText.trim() : 'Project not found';
         const startDate = dateElement ? parseDate(dateElement.innerText.trim()) : null;
 
         const collaborators = [];
@@ -150,7 +150,7 @@ function extractProjectsData() {
     return projectsList;
 }
 
-// Función para extraer puntajes de pruebas
+// Function to extract test scores
 function extractScoresData() {
     const scoresList = [];
     const scoreItems = document.querySelectorAll('.scores__list .profile-section-card');
@@ -159,8 +159,8 @@ function extractScoresData() {
         const scoreElement = item.querySelector('.profile-section-card__subtitle');
         const dateElement = item.querySelector('.date-range time');
 
-        const title = titleElement ? titleElement.innerText.trim() : 'Prueba no encontrada';
-        const score = scoreElement ? scoreElement.innerText.trim() : 'Puntuación no encontrada';
+        const title = titleElement ? titleElement.innerText.trim() : 'Test not found';
+        const score = scoreElement ? scoreElement.innerText.trim() : 'Score not found';
         const date = dateElement ? parseDate(dateElement.innerText.trim()) : null;
 
         scoresList.push({ title, score, date });
@@ -168,7 +168,7 @@ function extractScoresData() {
     return scoresList;
 }
 
-// Función para extraer idiomas
+// Function to extract languages
 function extractLanguagesData() {
     const languagesList = [];
     const languageItems = document.querySelectorAll('.languages__list .profile-section-card');
@@ -176,15 +176,15 @@ function extractLanguagesData() {
         const languageElement = item.querySelector('.profile-section-card__title');
         const proficiencyElement = item.querySelector('.profile-section-card__subtitle');
 
-        const language = languageElement ? languageElement.innerText.trim() : 'Idioma no encontrado';
-        const proficiency = proficiencyElement ? proficiencyElement.innerText.trim() : 'Competencia no encontrada';
+        const language = languageElement ? languageElement.innerText.trim() : 'Language not found';
+        const proficiency = proficiencyElement ? proficiencyElement.innerText.trim() : 'Proficiency not found';
 
         languagesList.push({ language, proficiency });
     });
     return languagesList;
 }
 
-// Función para extraer recomendaciones
+// Function to extract recommendations
 function extractRecommendationsData() {
     const recommendationsList = [];
     const recommendationItems = document.querySelectorAll('.recommendations__list-item');
@@ -193,26 +193,26 @@ function extractRecommendationsData() {
         const contentElement = item.querySelector('.endorsement-card__content');
         const profileLinkElement = item.querySelector('.endorsement-card a');
 
-        const author = authorElement ? authorElement.innerText.trim() : 'Autor no encontrado';
-        const content = contentElement ? contentElement.innerText.trim() : 'Contenido no encontrado';
-        const profileLink = profileLinkElement ? profileLinkElement.href : 'Enlace de perfil no encontrado';
+        const author = authorElement ? authorElement.innerText.trim() : 'Author not found';
+        const content = contentElement ? contentElement.innerText.trim() : 'Content not found';
+        const profileLink = profileLinkElement ? profileLinkElement.href : 'Profile link not found';
 
         recommendationsList.push({ author, content, profileLink });
     });
     return recommendationsList;
 }
 
-// Función para parsear fechas en formato "Mes Año" (ej. "Feb 2022")
+// Function to parse dates in "Month Year" format (e.g., "Feb 2022")
 function parseDate(dateString) {
     const [month, year] = dateString.split(' ');
     const monthIndex = new Date(Date.parse(month + " 1, 2020")).getMonth();
     return new Date(year, monthIndex);
 }
 
-// Función para parsear solo años
+// Function to parse years only
 function parseYear(yearString) {
     return new Date(yearString, 0);
 }
 
-// Ejecutar la extracción al cargar el script
+// Execute extraction when the script loads
 extractProfileData();

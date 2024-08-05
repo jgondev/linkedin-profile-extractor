@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LinkedIn Profile Extractor</title>
-    <!-- Incluyendo Tailwind CSS desde el CDN -->
+    <!-- Including Tailwind CSS from the CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
         body {
-            min-width: 500px; /* Ajusta el mínimo ancho del popup */
-            background: white; /* Fondo blanco para coherencia */
+            min-width: 500px; /* Set the minimum width of the popup */
+            background: white; /* White background for consistency */
         }
     </style>
 </head>
 <body class="p-4">
     <h1 class="text-xl font-bold text-gray-900 mb-2">LinkedIn Profile Extractor</h1>
     <div id="message" class="text-gray-600 mb-4 p-3 bg-blue-100 rounded-lg text-sm"></div>
-    <div id="output" class="bg-gray-100 p-4 rounded border border-gray-300 overflow-auto mb-4 hidden" style="height: 150px;"></div>
+    <div id="output" class="bg-gray-100 p-4 rounded border border-gray-300 overflow-auto mb-4 hidden" style="height: 300px;"></div>
     <button id="copyButton" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded hidden">
-        Copiar al Portapapeles
+        Copy to Clipboard
     </button>
     <script src="popup.js"></script>
 </body>
